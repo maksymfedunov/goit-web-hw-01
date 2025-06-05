@@ -1,5 +1,6 @@
 from display import Display
 
+
 class ConsoleDisplay(Display):
 
     def display_message(self, message):
@@ -10,9 +11,10 @@ class ConsoleDisplay(Display):
 
     def display_birthdays(self, birthdays):
         print(birthdays)
-        
+
     def display_help(self):
-        print("""
+        print(
+            """
 Commands:
 hello
 add 
@@ -24,4 +26,5 @@ show-birthday
 birthdays
 help
 exit,close                
-""")
+"""
+        )

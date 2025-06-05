@@ -2,9 +2,10 @@ from classes import *
 from save_book import *
 from console_display import ConsoleDisplay
 
+
 def input_error(func):
     def inner(*args, **kwargs):
-        if not args :
+        if not args:
             return "Please check the presence of the arguments"
 
         try:
@@ -15,13 +16,16 @@ def input_error(func):
             return "Enter user name"
         except IndexError:
             return "Please check the arguments"
+
     return inner
+
 
 @input_error
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, *args
+
 
 @input_error
 def add_contact(args, book):
@@ -36,26 +40,30 @@ def add_contact(args, book):
         record.add_phone(phone)
     return message
 
+
 @input_error
 def change_contact(args, book):
     name, old_phone, new_phone = args
     record = book.find(name)
-    message = "Contact updated." 
-    record.edit_phone(old_phone, new_phone)  
+    message = "Contact updated."
+    record.edit_phone(old_phone, new_phone)
     return message
+
 
 @input_error
 def show_phone(args, book):
     name = args[0]
     record = book.find(name)
-    phones = ', '.join(p.value for p in record.phones)
+    phones = ", ".join(p.value for p in record.phones)
     return f"{name}: {phones}"
-        
+
+
 @input_error
 def all_contacts(book):
     if not book.data:
         return "No contacts"
     return str(book)
+
 
 @input_error
 def add_birthday(args, book):
@@ -64,7 +72,8 @@ def add_birthday(args, book):
     if birthday:
         record.add_birthday(birthday)
     return f"For {name} add birthday {birthday}"
-    
+
+
 @input_error
 def show_birthday(args, book):
     name = args[0]
@@ -72,7 +81,8 @@ def show_birthday(args, book):
     if record.birthday:
         birthday = record.birthday.value
     return f"{name}: {birthday}"
-    
+
+
 @input_error
 def birthdays(args, book):
     upcoming = book.get_upcoming_birthdays()
@@ -80,7 +90,7 @@ def birthdays(args, book):
         return "No birthdays in the next 7 days"
     return "\n".join(f"{el['name']} : {el['birthday']}" for el in upcoming)
 
-        
+
 def main():
     book = load_data()
     display = ConsoleDisplay
@@ -110,9 +120,10 @@ def main():
         elif command == "birthdays":
             display.display_birthdays(birthdays(args, book))
         elif command == "help":
-            display.display_help()                          
+            display.display_help()
         else:
             display.display_message("Invalid command.")
+
 
 if __name__ == "__main__":
     main()
